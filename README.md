@@ -13,6 +13,24 @@ Load the anaconda module: module load conda and set up the conda environment usi
 NOTE: Users have reported problems in getting the environment to build from the `.yml` file, I tested the following command to create a working environment:
 `conda create --name panelification matplotlib jupyter pandas scipy xarray netCDF4 pyresample sqlite3 pymssql`
 
+# Updated notes 
+
+This did not work out of the box on ATOS. Instead, do 
+
+```
+./ATOS_directory_setup.sh
+module load conda 
+conda config --add channels conda-forge
+conda config --set channel_priority strict
+conda create --name panelification -c conda-forge \
+  python matplotlib jupyter pandas scipy xarray netCDF4 pyresample pymssql
+... installation ...
+conda activate panelification
+```
+Check the `sqlite3` functionality with e.g. `python -c "import sqlite3, xarray, netCDF4, pyresample, pymssql; print(sqlite3.sqlite_version)"`; this should not return an error. 
+
+
+
 # Usage
 `python main.py -s YYYYMMDDHH -d H -l H (H) --case [case as in DCMDB] --experiments [experiment names as in DCMDB]`
 
